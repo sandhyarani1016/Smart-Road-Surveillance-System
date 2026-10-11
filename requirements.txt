@@ -10,3 +10,4 @@ tqdm
 matplotlib
 pandas
 seaborn
+gunicorn
