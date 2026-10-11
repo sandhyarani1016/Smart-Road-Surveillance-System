@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Road Surveillance System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="brand">
+    <div class="brand-icon">SR</div>
+    <div>
+      <h2>Smart Road</h2>
+      <span>Surveillance System</span>
+    </div>
+  </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-text">
+    <p class="tag">SMART TRAFFIC MONITORING</p>
+    <h1>Smart Road<br><span>Surveillance System</span></h1>
+    <p class="hero-desc">
+      A web interface for traffic analysis, vehicle counting and helmet
+      violation detection.
+    </p>
+    <a class="primary-btn" href="#features">Explore Features</a>
+  </div>
+  <div class="hero-visual">
+    <div class="road-card">
+      <div class="road"></div>
+      <div class="car car1">🚗</div>
+      <div class="car car2">🚙</div>
+      <div class="lane-line"></div>
+      <div class="traffic-light"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <div class="section-heading">
+    <p class="tag">PROJECT MODULES</p>
+    <h2>Traffic Monitoring Features</h2>
+    <p>Select a module to upload an image or video and view the results.</p>
+  </div>
+
+  <div class="feature-grid">
+
+    <!-- CAR COUNTING -->
+    <article class="feature-card">
+      <div class="feature-icon">🚗</div>
+      <h3>Car Counting</h3>
+      <p>Upload a traffic video to count vehicles and analyze traffic density.</p>
+
+      <form action="/analyze" method="POST" enctype="multipart/form-data">
+        <label class="upload-box">
+          <input type="file" accept="video/*,.mkv"
+                 id="trafficFile" name="video" required>
+          <span>Choose Traffic Video</span>
+        </label>
+
+        <p id="trafficMessage" class="message"></p>
+
+        <video id="trafficPreview" class="preview"
+               controls style="display:none;"></video>
+
+        <button class="primary-btn small" id="analyzeButton" type="submit">
+          Analyze Video
+        </button>
+      </form>
+    </article>
+
+    <!-- HELMET DETECTION -->
+    <article class="feature-card">
+      <div class="feature-icon">🪖</div>
+      <h3>Helmet Detection</h3>
+      <p>Upload a rider image for helmet detection.</p>
+
+      <form action="/helmet-detection" method="POST"
+            enctype="multipart/form-data" id="helmetForm">
+
+        <label class="upload-box">
+          <input type="file"
+                 accept="image/jpeg,image/png,image/jpg"
+                 id="helmetFile" name="image" required>
+          <span>Choose Rider Image</span>
+        </label>
+
+        <p id="helmetMessage" class="message"></p>
+
+        <img id="helmetPreview" class="preview image-preview"
+             alt="Selected rider" style="display:none;">
+
+        <button class="primary-btn small" id="helmetButton" type="submit">
+          View Detection
+        </button>
+      </form>
+
+      <div class="result-box">
+        <div>
+          <span>Riders</span>
+          <strong id="riderCount">--</strong>
+        </div>
+        <div>
+          <span>Helmet Detections</span>
+          <strong id="helmetCount">--</strong>
+        </div>
+        <div>
+          <span>No Helmet Detections</span>
+          <strong id="noHelmetCount">--</strong>
+        </div>
+        <div>
+          <span>Number Plate Detections</span>
+          <strong id="helmetPlateCount">--</strong>
+        </div>
+        <div>
+          <span>Helmet Status</span>
+          <strong id="helmetStatus">Not Analyzed</strong>
+        </div>
+      </div>
+    </article>
+
+    <!-- NUMBER PLATE -->
+    <article class="feature-card">
+      <div class="feature-icon">🔢</div>
+      <h3>Number Plate Detection</h3>
+      <p>Number plate detection summary.</p>
+      <div class="result-box">
+        <div>
+          <span>Plate Status</span>
+          <strong id="plateStatus">Not Available</strong>
+        </div>
+        <div>
+          <span>Plate Detections</span>
+          <strong id="plateCount">--</strong>
+        </div>
+        <div>
+          <span>Plate Number</span>
+          <strong id="plateNumber">Not Available</strong>
+        </div>
+      </div>
+    </article>
+
+    <!-- TRAFFIC LEVEL -->
+    <article class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Traffic Level</h3>
+      <p>Analyze a traffic video to view its estimated traffic level.</p>
+
+      <div class="result-box">
+        <div>
+          <span>Traffic Status</span>
+          <strong id="trafficStatus">Not Analyzed</strong>
+        </div>
+        <div>
+          <span>Vehicles Counted</span>
+          <strong id="vehicleCount">--</strong>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="about" class="about section">
+  <div>
+    <p class="tag">ABOUT PROJECT</p>
+    <h2>How the system is organized</h2>
+    <p>
+      The project provides a browser-based interface for traffic video
+      analysis, vehicle counting and traffic density estimation.
+    </p>
+  </div>
+  <div class="info-card">
+    <p><b>Helmet:</b> Wearing / Not Wearing / Not Found</p>
+    <p><b>Number Plate:</b> Visible / Not Visible / Not Found</p>
+    <p><b>Passengers:</b> Detected passenger count</p>
+    <p><b>Traffic:</b> Low / Medium / High</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Smart Road Surveillance System | MCA Project</p>
+</footer>
+
+<script src="/js/script.js"></script>
+<script>
+  // CAR COUNTING PREVIEW
+  const trafficInput = document.getElementById("trafficFile");
+  const trafficPreview = document.getElementById("trafficPreview");
+  const trafficMessage = document.getElementById("trafficMessage");
+  const analyzeButton = document.getElementById("analyzeButton");
+
+  trafficInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) {
+      trafficPreview.style.display = "none";
+      trafficMessage.textContent = "";
+      return;
+    }
+
+    if (!file.type.startsWith("video/") &&
+        !file.name.toLowerCase().endsWith(".mkv")) {
+      trafficMessage.textContent = "Please select a valid video.";
+      this.value = "";
+      trafficPreview.style.display = "none";
+      return;
+    }
+
+    if (trafficPreview.dataset.objectUrl) {
+      URL.revokeObjectURL(trafficPreview.dataset.objectUrl);
+    }
+
+    const videoUrl = URL.createObjectURL(file);
+    trafficPreview.src = videoUrl;
+    trafficPreview.dataset.objectUrl = videoUrl;
+    trafficPreview.style.display = "block";
+    trafficMessage.textContent = "Selected: " + file.name;
+  });
+
+  document.querySelector('form[action="/analyze"]')
+    .addEventListener("submit", function (event) {
+      if (!trafficInput.files.length) {
+        event.preventDefault();
+        trafficMessage.textContent = "Please select a video first.";
+        return;
+      }
+
+      analyzeButton.disabled = true;
+      analyzeButton.textContent = "Analyzing video...";
+      trafficMessage.textContent =
+        "Please wait. Video processing may take some time.";
+    });
+
+  // HELMET DETECTION IMAGE PREVIEW
+  const helmetInput = document.getElementById("helmetFile");
+  const helmetPreview = document.getElementById("helmetPreview");
+  const helmetMessage = document.getElementById("helmetMessage");
+  const helmetForm = document.getElementById("helmetForm");
+  const helmetButton = document.getElementById("helmetButton");
+
+  helmetInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    helmetPreview.style.display = "none";
+    helmetPreview.removeAttribute("src");
+    helmetMessage.textContent = "";
+
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      helmetMessage.textContent = "Please select a JPG or PNG image.";
+      this.value = "";
+      return;
+    }
+
+    helmetPreview.src = URL.createObjectURL(file);
+    helmetPreview.style.display = "block";
+    helmetMessage.textContent = "Selected: " + file.name;
+  });
+
+  helmetForm.addEventListener("submit", function (event) {
+    if (!helmetInput.files.length) {
+      event.preventDefault();
+      helmetMessage.textContent = "Please select an image first.";
+      return;
+    }
+
+    helmetButton.disabled = true;
+    helmetButton.textContent = "Detecting...";
+    helmetMessage.textContent =
+      "Please wait while the image is being analyzed.";
+  });
+
+  // LOAD TRAFFIC RESULTS
+  async function loadTrafficResult() {
+    try {
+      const response = await fetch("/api/traffic-result");
+      if (!response.ok) return;
+
+      const data = await response.json();
+
+      document.getElementById("trafficStatus").textContent =
+        data.traffic_status || "Not Analyzed";
+
+      document.getElementById("vehicleCount").textContent =
+        data.vehicle_count ?? "--";
+    } catch (error) {
+      console.error("Could not load traffic results:", error);
+    }
+  }
+
+  // LOAD HELMET RESULTS
+  async function loadHelmetResult() {
+    try {
+      const response = await fetch("/api/helmet-result");
+      if (!response.ok) return;
+
+      const data = await response.json();
+
+      document.getElementById("riderCount").textContent =
+        data.rider_count ?? "--";
+
+      document.getElementById("helmetCount").textContent =
+        data.helmet_count ?? "--";
+
+      document.getElementById("noHelmetCount").textContent =
+        data.no_helmet_count ?? "--";
+
+      document.getElementById("helmetPlateCount").textContent =
+        data.plate_count ?? "--";
+
+      document.getElementById("helmetStatus").textContent =
+        data.helmet_status || "Not Analyzed";
+
+      document.getElementById("plateCount").textContent =
+        data.plate_count ?? "--";
+
+      document.getElementById("plateStatus").textContent =
+        data.plate_count > 0 ? "Detected" : "Not Detected";
+
+      // Detection count is not the same as reading the plate number.
+      document.getElementById("plateNumber").textContent =
+        "OCR Not Connected";
+
+    } catch (error) {
+      console.error("Could not load helmet results:", error);
+    }
+  }
+
+  loadTrafficResult();
+  loadHelmetResult();
+</script>
+</body>
+</html>

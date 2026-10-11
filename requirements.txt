@@ -1,0 +1,12 @@
+Flask
+opencv-contrib-python
+numpy
+torch
+torchvision
+Pillow
+PyYAML
+requests
+tqdm
+matplotlib
+pandas
+seaborn
